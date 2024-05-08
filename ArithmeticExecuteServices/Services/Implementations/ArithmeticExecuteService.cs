@@ -2,7 +2,6 @@
 using IO.Swagger.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Http;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 
 namespace ArithmeticExecuteServices.Services.Implementations
@@ -39,7 +38,6 @@ namespace ArithmeticExecuteServices.Services.Implementations
             }
 
         }
-        [Authorize]
         public int Add(int num1, int num2)
         {
             return Convert.ToInt32(num1 + num2);

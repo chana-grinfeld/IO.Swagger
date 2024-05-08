@@ -17,7 +17,6 @@ namespace IO.Swagger
             CreateWebHostBuilder(args).Build().Run();
         }
 
-
         /// <summary>
         /// Create the web host builder.
         /// </summary>

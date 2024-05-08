@@ -18,7 +18,9 @@ namespace ArithmeticExecuteServices.Services
             //באופן שהשירות ייבנה פעם אחת לכל טווח החיים(scope) שנקבע על ידי AddScoped.
             //בדרך כלל, שימוש בבדרך כלל, שימוש ב-AddScoped מתאים לסיטואציות בהן תרצה לשתף בין מספר אבידקטים (dependencies) באותו scope
             //ושכן תרצה שהמרכיבים שומרים על יחס חיי משותפים.
+
             serviceCollection.AddScoped<IArithmeticExecuteService, ArithmeticExecuteService>();
+            serviceCollection.AddScoped<IAuthorizeService, AuthorizeService>();
         }
     }
 }

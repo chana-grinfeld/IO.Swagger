@@ -1,56 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System;
-using ArithmeticExecuteServices.Models;
-using System.Security.Cryptography;
+﻿using ArithmeticExecuteServices.Models;
+using ArithmeticExecuteServices.Services.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Web.Http;
+using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
+using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace ArithmeticExecute.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-
-    public class AuthorizeController : ControllerBase
+    [AllowAnonymous]
+    public class AuthorizeController : ApiController
     {
-        private readonly IConfiguration _configuration;
+        private readonly IAuthorizeService _authorizeService;
 
-        public AuthorizeController(IConfiguration configuration)
+        public AuthorizeController(IAuthorizeService authorizeService)
         {
-            _configuration = configuration;
+            _authorizeService = authorizeService;
         }
 
         [HttpPost]
         [Route("/v1/Authorize")]
-        public IActionResult AuthorizeFunc([FromBody] AuthorizeModel loginModel)
+        [SwaggerOperation("ReqestLogin")]
+        public string ReqestLogin([FromBody] AuthorizeModel request)
         {
-            if (loginModel.UserName == "Admin" && loginModel.Password == "123")
-            {
-                var claims = new List<Claim>()
-        {
-            new Claim(ClaimTypes.Name, "Admin")};
-                var secretKey = new byte[32];
-                using (var rng = RandomNumberGenerator.Create())
-                {
-                    rng.GetBytes(secretKey);
-                }
-                var symmetricKey = new SymmetricSecurityKey(secretKey);
-                var signingCredentials = new SigningCredentials(symmetricKey, SecurityAlgorithms.HmacSha256);
-
-                var tokeOptions = new JwtSecurityToken(
-                    issuer: _configuration.GetValue<string>("JWT:Issuer"),
-                    audience: _configuration.GetValue<string>("JWT:Audience"),
-                    claims: claims,
-                    expires: DateTime.Now.AddSeconds(10),
-                    signingCredentials: signingCredentials
-                );
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-                return Ok(new { Token = tokenString });
-            }
-            return Unauthorized();
+            var result = _authorizeService.AuthorizeFunc(request);
+            return result;
         }
     }
 }
