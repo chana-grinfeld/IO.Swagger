@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArithmeticExecute", "src\IO.Swagger\ArithmeticExecute.csproj", "{84B6112E-C354-4580-9CCF-BAEF18786745}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArithmeticExecuteServices", "ArithmeticExecuteServices\ArithmeticExecuteServices.csproj", "{D60799AC-20B9-46F8-8E32-14286B3EAA60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArithmeticExecuteServices", "ArithmeticExecuteServices\ArithmeticExecuteServices.csproj", "{D60799AC-20B9-46F8-8E32-14286B3EAA60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArithmeticExecute.Tests", "ArithmeticExecute.Tests\ArithmeticExecute.Tests.csproj", "{12BDD45E-AF5E-404F-91EC-C2479562D830}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D60799AC-20B9-46F8-8E32-14286B3EAA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D60799AC-20B9-46F8-8E32-14286B3EAA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D60799AC-20B9-46F8-8E32-14286B3EAA60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12BDD45E-AF5E-404F-91EC-C2479562D830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12BDD45E-AF5E-404F-91EC-C2479562D830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12BDD45E-AF5E-404F-91EC-C2479562D830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12BDD45E-AF5E-404F-91EC-C2479562D830}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
