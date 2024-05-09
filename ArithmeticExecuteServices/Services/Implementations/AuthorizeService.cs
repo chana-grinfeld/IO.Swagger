@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
+using System.Text;
 using System.Web.Http;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
@@ -31,25 +31,19 @@ namespace ArithmeticExecuteServices.Services.Implementations
         {
             if (loginModel.UserName == "Admin" && loginModel.Password == "123")
             {
-                var claims = new List<Claim>()
-                {new Claim(ClaimTypes.Name, "Admin")};
-                var secretKey = new byte[32];
-                using (var rng = RandomNumberGenerator.Create())
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_configuration["Jwt:SecretKey"]);
+                var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    rng.GetBytes(secretKey);
-                }
-                var symmetricKey = new SymmetricSecurityKey(secretKey);
-                var signingCredentials = new SigningCredentials(symmetricKey, SecurityAlgorithms.HmacSha256);
-
-                var tokenOptions = new JwtSecurityToken(
-                    issuer: _configuration.GetValue<string>("JWT:Issuer"),
-                    audience: _configuration.GetValue<string>("JWT:Audience"),
-                    claims: claims,
-                    expires: DateTime.Now.AddSeconds(10),
-                    signingCredentials: signingCredentials
-                );
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.Name, "Admin")
+                    }),
+                    Expires = DateTime.UtcNow.AddHours(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                var tokenString = tokenHandler.WriteToken(token);
                 return tokenString;
             }
             throw new ArgumentException("Unauthorized.");

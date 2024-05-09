@@ -23,13 +23,6 @@ namespace ArithmeticExecute.Attributes
                 {
                     context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
                 }
-
-                //TODO: health check
-                //When there is a DB, the token must be saved to the DB and then proper checks can be performed on it,
-                //for example if it actually exists, 
-                //If the token the customer enters is the same as the token sent to him from the system
-                //as well as a time check, if the time specified in the token has passed and the user is still present, access to the service must be extended
-
                 try
                 {
                     var handler = new JwtSecurityTokenHandler();
@@ -40,7 +33,6 @@ namespace ArithmeticExecute.Attributes
                 {
                     context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
                 }
-                //var SplitedCleims = jwtSecurityToken.Claims.First(claim => claim.Type == "Name").Value;
             }
             else
             {

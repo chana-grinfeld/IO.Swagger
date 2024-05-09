@@ -12,8 +12,8 @@ namespace ArithmeticExecute.Tests.UnitTests
         {
             // Arrange
             var configuration = new Mock<IConfiguration>();
-            configuration.Setup(c => c["https://localhost:50352/"]).Returns("https://localhost:50352/");
-            configuration.Setup(c => c["https://localhost:50352/"]).Returns("https://localhost:50352/");
+            configuration.Setup(c => c["http://localhost:50352/"]).Returns("http://localhost:50352/");
+            configuration.Setup(c => c["http://localhost:50352/"]).Returns("http://localhost:50352/");
 
 
             var authorizeService = new AuthorizeService(configuration.Object);

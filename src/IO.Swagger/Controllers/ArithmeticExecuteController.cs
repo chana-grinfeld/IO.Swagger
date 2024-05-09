@@ -11,7 +11,7 @@ using ArithmeticExecute.Attributes;
 
 namespace IO.Swagger.Controllers
 {
-    [JWTAttribute]
+    //[Authorize]
     public class ArithmeticExecuteController : ApiController
     {
         private readonly IArithmeticExecuteService _arithmeticExecutService;
@@ -21,6 +21,8 @@ namespace IO.Swagger.Controllers
             _arithmeticExecutService = arithmeticExecutService;
         }
 
+        [JWTAttribute]
+        //[Authorize]
         [HttpPost]
         [Route("/v1/calculate")]
         [SwaggerOperation("ArithmeticExecuteFunc")]

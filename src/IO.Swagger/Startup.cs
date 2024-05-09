@@ -9,9 +9,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using ArithmeticExecuteServices.Services.Interfaces;
-using ArithmeticExecuteServices.Services.Implementations;
 using System.Collections.Generic;
+using ArithmeticExecuteServices.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace IO.Swagger
 {
@@ -52,11 +54,24 @@ namespace IO.Swagger
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter(new CamelCaseNamingStrategy()));
-                })
-                .AddXmlSerializerFormatters();
+                });
+            services.RegisterServices();
 
-            services.AddScoped<IArithmeticExecuteService, ArithmeticExecuteService>();
-            services.AddScoped<IAuthorizeService, AuthorizeService>();
+            // Add JWT authentication service
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true, // Set to true if you want to validate the issuer
+                        ValidateAudience = true, // Set to true if you want to validate the audience
+                        ValidateLifetime = true, // Set to true to check the token expiration
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"])),
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
+                    };
+                });
 
             services.AddAuthorization();
 
