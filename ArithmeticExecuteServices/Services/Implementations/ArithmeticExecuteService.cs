@@ -1,14 +1,16 @@
 ﻿using ArithmeticExecuteServices.Services.Interfaces;
 using IO.Swagger.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 
 namespace ArithmeticExecuteServices.Services.Implementations
 {
+    [Authorize]
     public class ArithmeticExecuteService : IArithmeticExecuteService
     {
-        //my business logic
+        [Authorize]
         public int ArithmeticExecute([FromBody] ArithmeticExecuteModel request, [FromHeader][Required()] string operationRequest)
         {
             int num1 = request.Number1;
@@ -36,7 +38,6 @@ namespace ArithmeticExecuteServices.Services.Implementations
                 default:
                     throw new ArgumentException("Invalid operator provided.");
             }
-
         }
         public int Add(int num1, int num2)
         {

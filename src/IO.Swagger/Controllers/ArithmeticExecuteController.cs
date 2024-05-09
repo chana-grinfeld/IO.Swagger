@@ -7,11 +7,10 @@ using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using System.ComponentModel.DataAnnotations;
 using Swashbuckle.AspNetCore.Annotations;
-using ArithmeticExecute.Attributes;
 
 namespace IO.Swagger.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ArithmeticExecuteController : ApiController
     {
         private readonly IArithmeticExecuteService _arithmeticExecutService;
@@ -21,8 +20,7 @@ namespace IO.Swagger.Controllers
             _arithmeticExecutService = arithmeticExecutService;
         }
 
-        [JWTAttribute]
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [Route("/v1/calculate")]
         [SwaggerOperation("ArithmeticExecuteFunc")]
